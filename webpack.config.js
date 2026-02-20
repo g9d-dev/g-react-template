@@ -5,7 +5,7 @@ var webpack = require('webpack');
 // Plugins
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+//var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // PostCss
 var autoprefixer = require('autoprefixer');
@@ -18,7 +18,7 @@ const base = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     devtool: 'cheap-module-source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, 'build'),
+        //contentBase: path.resolve(__dirname, 'build'),
         host: '0.0.0.0',
         port: process.env.PORT || 11451
     },
@@ -39,6 +39,9 @@ const base = {
                 path.resolve(__dirname, 'src'),
                 // /node_modules[\\/][^@\.][^\\/]+/,
                 /node_modules[\\/]g-[^\\/]+[\\/]src/,
+                /node_modules[\\/]react-redux/,
+                /node_modules[\\/]redux/,
+                /node_modules[\\/]@fortawesome/,
                 /node_modules[\\/]pify/,
                 /node_modules[\\/]@vernier[\\/]godirect/
             ],
@@ -63,19 +66,21 @@ const base = {
                 options: {
                     modules: true,
                     importLoaders: 1,
-                    localIdentName: '[name]_[local]_[hash:base64:5]',
-                    camelCase: true
+                    //localIdentName: '[name]_[local]_[hash:base64:5]',
+                    //camelCase: true
                 }
             }, {
                 loader: 'postcss-loader',
                 options: {
-                    ident: 'postcss',
-                    plugins: function () {
-                        return [
-                            postcssImport,
-                            postcssVars,
-                            autoprefixer
-                        ];
+                    postcssOptions: {
+                        //ident: 'postcss',
+                        plugins: function () {
+                            return [
+                                postcssImport,
+                                postcssVars,
+                                autoprefixer
+                            ];
+                        }
                     }
                 }
             }]
@@ -83,9 +88,9 @@ const base = {
     },
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
-                include: /\.min\.js$/
-            })
+            //new UglifyJsPlugin({
+            //    include: /\.min\.js$/
+            //})
         ]
     },
     plugins: [new webpack.HotModuleReplacementPlugin()]
@@ -118,20 +123,23 @@ module.exports = [
                 }
             ])
         },
+        /*
         optimization: {
             splitChunks: {
                 chunks: 'all',
                 name: 'lib.min'
             },
-            runtimeChunk: {
-                name: 'lib.min'
-            }
+            //runtimeChunk: {
+            //    name: 'lib.min'
+            //}
+            //dependOn: "lib.min"
         },
+        */
         plugins: base.plugins.concat([
             new webpack.DefinePlugin({
-                'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"',
-                'process.env.DEBUG': Boolean(process.env.DEBUG),
-                'process.env.GA_ID': '"' + (process.env.GA_ID || 'UA-000000-01') + '"'
+                //'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"',
+                //'process.env.DEBUG': Boolean(process.env.DEBUG),
+                //'process.env.GA_ID': '"' + (process.env.GA_ID || 'UA-000000-01') + '"'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'index'],

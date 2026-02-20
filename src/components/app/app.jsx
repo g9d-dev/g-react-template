@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import bindAll from 'lodash.bindall';
 
+
 const App = (props) => {
-    return <div>Hello</div>;
+    return (
+        <p>Hello</p>
+    );
 }
 
 export default App;
