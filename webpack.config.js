@@ -58,7 +58,7 @@ const base = {
             }
         },
         {
-            test: /\.css$/,
+            test: /\.s?css$/,
             use: [{
                 loader: 'style-loader'
             }, {
@@ -69,6 +69,9 @@ const base = {
                     //localIdentName: '[name]_[local]_[hash:base64:5]',
                     //camelCase: true
                 }
+            },
+            {
+                loader: 'sass-loader'
             }, {
                 loader: 'postcss-loader',
                 options: {
